@@ -1,5 +1,5 @@
 sql:
-  url: jdbc:mysql://192.168.0.106:3306/water?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+  url: jdbc:mysql://192.168.0.106:3306/crm?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
   username: root
   password: 123456
   driver: com.mysql.cj.jdbc.Driver
