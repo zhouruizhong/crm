@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrz.crm.mapper.BannerMapper">
+  <resultMap id="BaseResultMap" type="com.zrz.crm.model.Banner">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="banner_name" jdbcType="VARCHAR" property="bannerName" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="sort_type" jdbcType="INTEGER" property="sortType" />
+    <result column="data_type" jdbcType="INTEGER" property="dataType" />
+    <result column="data_value" jdbcType="VARCHAR" property="dataValue" />
+    <result column="plain_seq" jdbcType="INTEGER" property="plainSeq" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_flag" jdbcType="INTEGER" property="deleteFlag" />
+  </resultMap>
+
+  <insert id="addBanner" parameterType="com.zrz.crm.web.param.BannerParam">
+    INSERT INTO `banner`
+    (<if test="bannerParam.bannerName != null and bannerParam.bannerName != ''">
+      banner_name,
+    </if>
+    <if test="bannerParam.imgUrl != null and bannerParam.imgUrl != ''">
+      img_url,
+    </if>
+    <if test="bannerParam.sortTypeId != null">
+      sort_type,
+    </if>
+    <if test="bannerParam.dataType != null">
+      data_type,
+    </if>
+    <if test="bannerParam.dataValue != null and bannerParam.dataValue != ''">
+      data_value,
+    </if>
+    <if test="bannerParam.plainSeq != null">
+      plain_seq,
+    </if>
+    create_time
+    )VALUES(
+    <if test="bannerParam.bannerName != null and bannerParam.bannerName != ''">
+      #{bannerParam.bannerName},
+    </if>
+    <if test="bannerParam.imgUrl != null and bannerParam.imgUrl != ''">
+      #{bannerParam.imgUrl},
+    </if>
+    <if test="bannerParam.sortTypeId != null">
+      #{bannerParam.sortTypeId},
+    </if>
+    <if test="bannerParam.dataType != null">
+      #{bannerParam.dataType},
+    </if>
+    <if test="bannerParam.dataValue != null and bannerParam.dataValue != ''">
+      #{bannerParam.dataValue},
+    </if>
+    <if test="bannerParam.plainSeq != null">
+      #{bannerParam.plainSeq},
+    </if>
+    NOW())
+  </insert>
+
+  <update id="updateBanner">
+    UPDATE banner
+    <set>
+      <if test="bannerParam.bannerName != null and bannerParam.bannerName != ''">
+        banner_name=#{bannerParam.bannerName},
+      </if>
+      <if test="bannerParam.imgUrl != null and bannerParam.imgUrl != ''">
+        img_url=#{bannerParam.imgUrl},
+      </if>
+      <if test="bannerParam.sortTypeId != null">
+        sort_type=#{bannerParam.sortTypeId},
+      </if>
+      <if test="bannerParam.dataType != null">
+        data_type=#{bannerParam.dataType},
+      </if>
+      <if test="bannerParam.dataValue != null and bannerParam.dataValue != ''">
+        data_value=#{bannerParam.dataValue},
+      </if>
+      <if test="bannerParam.plainSeq != null and bannerParam.plainSeq != ''">
+        plain_seq=#{bannerParam.plainSeq},
+      </if>
+    </set>
+    WHERE id = #{bannerId}
+  </update>
+
+  <select id="getBannerList" resultType="com.zrz.crm.web.dto.BannerDto">
+    SELECT b.`id`,
+           b.`banner_name` AS bannerName,
+           b.`img_url`     AS imgUrl,
+           b.`data_type`   AS dataType,
+           b.`data_value`  AS dataValue,
+           b.`plain_seq`   AS plainSeq,
+           b.`create_time` AS createTime
+    FROM `banner` b
+    WHERE b.`delete_flag` = 1
+  </select>
+
+</mapper>

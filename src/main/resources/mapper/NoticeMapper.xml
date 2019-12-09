@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrz.crm.mapper.NoticeMapper">
+    <resultMap id="BaseResultMap" type="com.zrz.crm.model.Notice">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
+        <result column="creator_org_id" jdbcType="INTEGER" property="creatorOrgId"/>
+        <result column="creator_org_name" jdbcType="VARCHAR" property="creatorOrgName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="sort" jdbcType="TINYINT" property="sort"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+
+    <select id="getNoticeList" resultType="com.zrz.crm.web.dto.NoticeDto">
+        select
+        id,
+        title,
+        sort
+        from
+        notice
+        <where>
+            delete_flag = 1
+            <if test="orgIdList != null and orgIdList.size > 0">
+                and creator_org_id in
+                <foreach collection="orgIdList" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+
+        order by
+        create_time
+        desc
+    </select>
+
+    <select id="getNoticeDetail" resultType="com.zrz.crm.web.dto.NoticeDetailDto">
+        select title,
+               content,
+               create_time AS createTime
+        FROM notice
+        WHERE id = #{id}
+          AND delete_flag = 1
+    </select>
+
+</mapper>
